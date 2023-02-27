@@ -1,21 +1,19 @@
 //
-//  ContentView.swift
-//  SpoilerViewExample
-//
 //  Created by Artem Novichkov on 27.02.2023.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+
+    @State var showSpoiler = true
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text("Everything will be good")
+                .font(.title)
+                .spoiler(show: $showSpoiler)
         }
-        .padding()
     }
 }
 
@@ -24,3 +22,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

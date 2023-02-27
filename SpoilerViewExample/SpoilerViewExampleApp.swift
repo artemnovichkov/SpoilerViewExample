@@ -1,7 +1,4 @@
 //
-//  SpoilerViewExampleApp.swift
-//  SpoilerViewExample
-//
 //  Created by Artem Novichkov on 27.02.2023.
 //
 
