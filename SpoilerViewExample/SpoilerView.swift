@@ -54,9 +54,10 @@ struct SpoilerModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay {
-                GeometryReader { proxy in
-                    SpoilerView(size: proxy.size)
-                        .opacity(isOn ? 1 : 0)
+                if isOn {
+                    GeometryReader { proxy in
+                        SpoilerView(size: proxy.size)
+                    }
                 }
             }
     }
