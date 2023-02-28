@@ -9,15 +9,9 @@ struct ContentView: View {
     @State var spoilerIsOn = true
 
     var body: some View {
-        VStack {
-            Text("Everything will be good")
-                .font(.title)
-                .opacity(0)
-                .modifier(SpoilerModifier(isOn: true))
-            Text("You're awesome!")
-                .font(.title)
-                .spoiler(isOn: $spoilerIsOn)
-        }
+        Text("Everything will be good")
+            .font(.title)
+            .spoiler(isOn: $spoilerIsOn)
     }
 }
 

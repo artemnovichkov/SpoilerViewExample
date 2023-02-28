@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-final class SpoilerUIView: UIView {
+final class EmitterView: UIView {
 
     override class var layerClass: AnyClass {
         CAEmitterLayer.self
@@ -20,8 +20,8 @@ struct SpoilerView: UIViewRepresentable {
 
     let size: CGSize
 
-    func makeUIView(context: Context) -> SpoilerUIView {
-        let view = SpoilerUIView()
+    func makeUIView(context: Context) -> EmitterView {
+        let emitterView = EmitterView()
 
         let emitterCell = CAEmitterCell()
         emitterCell.contents = UIImage(named: "textSpeckle_Normal")?.cgImage
@@ -34,13 +34,13 @@ struct SpoilerView: UIViewRepresentable {
         emitterCell.alphaRange = 1
         emitterCell.birthRate = 4000
 
-        view.layer.emitterShape = .rectangle
-        view.layer.emitterCells = [emitterCell]
+        emitterView.layer.emitterShape = .rectangle
+        emitterView.layer.emitterCells = [emitterCell]
 
-        return view
+        return emitterView
     }
 
-    func updateUIView(_ uiView: SpoilerUIView, context: Context) {
+    func updateUIView(_ uiView: EmitterView, context: Context) {
         uiView.layer.emitterPosition = .init(x: size.width / 2,
                                              y: size.height / 2)
         uiView.layer.emitterSize = size
@@ -50,16 +50,14 @@ struct SpoilerView: UIViewRepresentable {
 struct SpoilerModifier: ViewModifier {
 
     let isOn: Bool
-    @State private var size: CGSize = .zero
 
     func body(content: Content) -> some View {
         content
-            .readSize { size in
-                self.size = size
-            }
             .overlay {
-                SpoilerView(size: size)
-                    .opacity(isOn ? 1 : 0)
+                GeometryReader { proxy in
+                    SpoilerView(size: proxy.size)
+                        .opacity(isOn ? 1 : 0)
+                }
             }
     }
 }
@@ -74,23 +72,5 @@ extension View {
             .onTapGesture {
                 isOn.wrappedValue = !isOn.wrappedValue
             }
-    }
-}
-
-struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
-}
-
-extension View {
-
-    func readSize(onChange: @escaping (CGSize) -> Void) -> some View {
-        background(
-            GeometryReader { geometryProxy in
-                Color.clear
-                    .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
-            }
-        )
-        .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
     }
 }
