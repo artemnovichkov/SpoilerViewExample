@@ -32,9 +32,6 @@ struct SpoilerView: UIViewRepresentable {
         emitterCell.scale = 0.5
         emitterCell.velocityRange = 20
         emitterCell.alphaRange = 1
-        emitterCell.setValue("point", forKey: "particleType")
-        emitterCell.setValue(3.0, forKey: "mass")
-        emitterCell.setValue(2.0, forKey: "massRange")
         emitterCell.birthRate = 4000
 
         view.layer.emitterShape = .rectangle
@@ -52,7 +49,7 @@ struct SpoilerView: UIViewRepresentable {
 
 struct SpoilerModifier: ViewModifier {
 
-    let opacity: Double
+    let isOn: Bool
     @State private var size: CGSize = .zero
 
     func body(content: Content) -> some View {
@@ -62,21 +59,20 @@ struct SpoilerModifier: ViewModifier {
             }
             .overlay {
                 SpoilerView(size: size)
-                    .opacity(opacity)
+                    .opacity(isOn ? 1 : 0)
             }
     }
 }
 
 extension View {
 
-    @ViewBuilder
-    func spoiler(show: Binding<Bool>) -> some View {
+    func spoiler(isOn: Binding<Bool>) -> some View {
         self
-            .opacity(show.wrappedValue ? 0 : 1)
-            .modifier(SpoilerModifier(opacity: show.wrappedValue ? 1 : 0))
-            .animation(.default, value: show.wrappedValue)
+            .opacity(isOn.wrappedValue ? 0 : 1)
+            .modifier(SpoilerModifier(isOn: isOn.wrappedValue))
+            .animation(.default, value: isOn.wrappedValue)
             .onTapGesture {
-                show.wrappedValue = !show.wrappedValue
+                isOn.wrappedValue = !isOn.wrappedValue
             }
     }
 }

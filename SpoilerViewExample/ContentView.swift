@@ -6,13 +6,17 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @State var showSpoiler = true
+    @State var spoilerIsOn = true
 
     var body: some View {
         VStack {
             Text("Everything will be good")
                 .font(.title)
-                .spoiler(show: $showSpoiler)
+                .opacity(0)
+                .modifier(SpoilerModifier(isOn: true))
+            Text("You're awesome!")
+                .font(.title)
+                .spoiler(isOn: $spoilerIsOn)
         }
     }
 }
