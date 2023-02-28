@@ -5,6 +5,9 @@ An example project for a new article.
 
 [![Build](https://github.com/artemnovichkov/SpoilerViewExample/actions/workflows/build.yml/badge.svg)](https://github.com/artemnovichkov/SpoilerViewExample/actions/workflows/build.yml)
 
+<p align="center"/>
+  <img src=".github/screenshot.png" width="50%"/>
+</p>
 
 ## Author
 
