@@ -13,12 +13,17 @@ final class EmitterView: UIView {
     override var layer: CAEmitterLayer {
         super.layer as! CAEmitterLayer
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.emitterPosition = .init(x: bounds.size.width / 2,
+                                      y: bounds.size.height / 2)
+        layer.emitterSize = bounds.size
+    }
 }
 
 /// Based on [InvisibleInkDustNode.swift](https://github.com/TelegramMessenger/Telegram-iOS/blob/930d1fcc46e39830e6d590986a6a838c3ff49e27/submodules/InvisibleInkDustNode/Sources/InvisibleInkDustNode.swift#L97-L109)
 struct SpoilerView: UIViewRepresentable {
-
-    let size: CGSize
 
     func makeUIView(context: Context) -> EmitterView {
         let emitterView = EmitterView()
@@ -41,9 +46,6 @@ struct SpoilerView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: EmitterView, context: Context) {
-        uiView.layer.emitterPosition = .init(x: size.width / 2,
-                                             y: size.height / 2)
-        uiView.layer.emitterSize = size
     }
 }
 
@@ -55,9 +57,7 @@ struct SpoilerModifier: ViewModifier {
         content
             .overlay {
                 if isOn {
-                    GeometryReader { proxy in
-                        SpoilerView(size: proxy.size)
-                    }
+                    SpoilerView()
                 }
             }
     }
