@@ -25,6 +25,8 @@ final class EmitterView: UIView {
 /// Based on [InvisibleInkDustNode.swift](https://github.com/TelegramMessenger/Telegram-iOS/blob/930d1fcc46e39830e6d590986a6a838c3ff49e27/submodules/InvisibleInkDustNode/Sources/InvisibleInkDustNode.swift#L97-L109)
 struct SpoilerView: UIViewRepresentable {
 
+    var isOn: Bool
+
     func makeUIView(context: Context) -> EmitterView {
         let emitterView = EmitterView()
 
@@ -46,6 +48,10 @@ struct SpoilerView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: EmitterView, context: Context) {
+        if isOn {
+            uiView.layer.beginTime = CACurrentMediaTime()
+        }
+        uiView.layer.birthRate = isOn ? 1 : 0
     }
 }
 
@@ -54,12 +60,9 @@ struct SpoilerModifier: ViewModifier {
     let isOn: Bool
 
     func body(content: Content) -> some View {
-        content
-            .overlay {
-                if isOn {
-                    SpoilerView()
-                }
-            }
+        content.overlay {
+            SpoilerView(isOn: isOn)
+        }
     }
 }
 
