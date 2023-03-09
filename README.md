@@ -1,12 +1,12 @@
 
 # Spoiler View Example
 
-An example project for a new article.
+An example project for [Implementing spoilers in SwiftUI](https://www.artemnovichkov.com/blog/spoiler-view) article.
 
 [![Build](https://github.com/artemnovichkov/SpoilerViewExample/actions/workflows/build.yml/badge.svg)](https://github.com/artemnovichkov/SpoilerViewExample/actions/workflows/build.yml)
 
 <p align="center"/>
-  <img src=".github/screenshot.gif" width="50%"/>
+  <img src=".github/screenshot.gif" width="40%"/>
 </p>
 
 ## Author
